@@ -1,0 +1,76 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Customer.io - jQuery Form Plugin</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CIO Form Styles:
+    Include this piece of CSS if you would like to use our form styles -->
+  <link rel="stylesheet" href="css/cio-form-styles.css">
+
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+
+  <div class="cio-form custom-form-styles">
+
+    <header>
+      <h3>My Super Awesome Form</h3>
+    </header>
+
+    <hr>
+
+    <!-- The following <form> is all you need to get started. It is recommended
+      that you set a class or id to the form to target it via jQuery -->
+    <form id="my-form">
+
+      <!-- Add <input> fields for all the attributes you would like to send to
+        Customer.io. The name="" attribute of the <input> will be the
+        name of your attribute. The value will be whatever the user inputs. -->
+      <input name="name" placeholder="Name (Required)" required="" type="text">
+      <input name="email" placeholder="Email (Required)" required="" type="text">
+      <input name="company" placeholder="Company" type="text">
+
+      <!-- To submit/send your form to Customer.io, you'll need a submit button,
+        or something with type="submit". We recommend using a <button>. -->
+      <button type="submit">Sign Me Up</button>
+    </form>
+
+    <div class="form-success" id="form-success">
+      Thanks <span class="user-name"></span>! The form was successfully submitted.
+    </div>
+
+  </div>
+
+  <!-- Include jQuery into your project, as the cioForm requires it -->
+  <script src="vendor/jquery.min.js"></script>
+  <!-- Include the cioForm.js file. Make sure you include it after you include jQuery -->
+  <script src="js/jquery.cioForm.js"></script>
+
+  <script src="js/main.js"></script>
+
+  <!-- Below is the Customer.io Javascript snippet. Make sure you include
+    your own snippet with your unique data-site-id to allow for the data to be
+    sent to your account. -->
+  <script type="text/javascript">
+    var _cio = _cio || [];
+    (function() {
+      var a,b,c;a=function(f){return function(){_cio.push([f].
+      concat(Array.prototype.slice.call(arguments,0)))}};b=["load","identify",
+      "sidentify","track","page"];for(c=0;c<b.length;c++){_cio[b[c]]=a(b[c])};
+      var t = document.createElement('script'),
+          s = document.getElementsByTagName('script')[0];
+      t.async = true;
+      t.id    = 'cio-tracker';
+      t.setAttribute('data-site-id', 'YOUR-UNIQUE-KEY-HERE');
+      t.src = 'https://assets.customer.io/assets/track.js';
+      s.parentNode.insertBefore(t, s);
+    })();
+  </script>
+
+</body>
+</html>
