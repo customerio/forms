@@ -92,7 +92,10 @@
 
       <!-- Add <input> fields for all the attributes you would like to send to
         Customer.io. The name="" attribute of the <input> will be the
-        name of your attribute. The value will be whatever the user inputs. -->
+        name of your attribute. The value will be whatever the user inputs. 
+        One special thing we do here is use the 'email' field as the id for the person
+        in Customer.io. For example  'email@example.com' gets added with the 
+        ID 'email_example_com'-->
       <input name="name" placeholder="Name (Required)" required="" type="text">
       <input name="email" placeholder="Email (Required)" required="" type="text">
       <input name="company" placeholder="Company" type="text">
