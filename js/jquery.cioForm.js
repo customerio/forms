@@ -266,7 +266,7 @@
         }
 
         // If name and value are defined
-        if( name && value ) {
+        if( ( name !== undefined ) && ( value !== undefined ) ) {
           // Add the name and value to the attributes object
           that.attributes[ name ] = value;
         }
@@ -552,7 +552,7 @@
      */
     Form.prototype.reset = function() {
       // Find and loop through all the inputs
-      this.$el.find( "input" ).each( function() {
+      this.$el.find( "input[type!='hidden']" ).each( function() {
         // Set the values to blank
         this.value = "";
       });
