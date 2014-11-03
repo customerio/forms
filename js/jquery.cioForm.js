@@ -1,5 +1,5 @@
 /*!
- * Customer.io - Form
+ * Customer.io - cioForm
  * A jQuery plugin that hooks into HTML forms to send data to Customer.io
  * Copyright 2014 Customer.io
  * Licensed under MIT
@@ -81,19 +81,15 @@
       created_at: true
     }, options );
 
-    // Privatized cookie object to be merged into settings object when ready
-    var _settingsCookie = {
+    settings.cookie = {
       name: "_cioForm",
       expire: 365,
       value: true
     };
 
     if( options && options.cookie ) {
-      _settingsCookie = $.extend( _settingsCookie, options.cookie );
+      settings.cookie = $.extend( settings.cookie, options.cookie );
     }
-
-    // Merging/setting the settings.cookie
-    settings.cookie = _settingsCookie;
 
     /**
      * _callback
@@ -181,14 +177,14 @@
 
 
     /**
-     * Form
-     * This is the constructor for the Form model
+     * cioForm
+     * This is the constructor for the cioForm model
      *
      * @constructor
      * @param  { dom element } el   [ The cioForm dom element ]
      * @return { model }            [ Returns itself ]
      */
-    var Form = function( el ) {
+    var cioForm = function( el ) {
       // Return false if el is invalid
       if(!el || typeof el !== 'object') {
           return false;
@@ -215,7 +211,7 @@
      * @param  { value } key [ the name of the key to get from ]
      * @return { value }     [ the value of the key ]
      */
-    Form.prototype.get = function( key ) {
+    cioForm.prototype.get = function( key ) {
       // Return false if the key is not defined
       if( key === undefined ) {
         return false;
@@ -229,7 +225,7 @@
      * This method (re)defines the form's action to prevent the form from
      * executing/sending before the data is sent to Customer.io
      */
-    Form.prototype.getAction = function() {
+    cioForm.prototype.getAction = function() {
       var el = this.el;
       // If the form has an attribute of action
       if( el.hasAttribute( "action" ) ) {
@@ -248,7 +244,7 @@
      * to be sent to Customer.io
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.getAttributes = function() {
+    cioForm.prototype.getAttributes = function() {
       // Defining self
       var that = this;
       // Defining $el
@@ -285,10 +281,10 @@
 
     /**
      * getCookie
-     * This method gets the Form cookie from the document
+     * This method gets the cioForm cookie from the document
      * @param  { string } name [ name of the cookie ]
      */
-    Form.prototype.getCookie = function( name ) {
+    cioForm.prototype.getCookie = function( name ) {
       // Setting the name argument
       name = name ? name : settings.cookie.name;
       var nameEQ = name + "=";
@@ -318,7 +314,7 @@
      * This method checks to see if the form has already been filled. It does this by checking to see if the cookie name is present in document.cookie.
      * @return { Boolean } [ true/false if the cookie has been set ]
      */
-    Form.prototype.hasFilled = function() {
+    cioForm.prototype.hasFilled = function() {
       // Return boolean if the cookie name exists in document.cookie
       return ( _document.cookie.indexOf( settings.cookie.name ) >= 0 );
     };
@@ -331,7 +327,7 @@
      * @param  { string } name  [ the name of the cookie ]
      * @return { boolean }      [ status ]
      */
-    Form.prototype.removeCookie = function( name ) {
+    cioForm.prototype.removeCookie = function( name ) {
       // Defining the cookie name to removed
       // If the name argument is not available, use the settings.cookie.name
       name = name ? name : settings.cookie.name;
@@ -360,7 +356,7 @@
      * @param { value } value [ the value to set into the key ]
      * @return { value }      [ the value that was set]
      */
-    Form.prototype.set = function( key, value ) {
+    cioForm.prototype.set = function( key, value ) {
       // Return false if the key is not defined
       if( key === undefined ) {
         return false;
@@ -379,7 +375,7 @@
      * @param   { string } [ an form action ]
      * @return  { object } [ the cioForm object ]
      */
-    Form.prototype.setAction = function( action ) {
+    cioForm.prototype.setAction = function( action ) {
       var el = this.el;
       // If action argument is defined, use action argument. Fallback to action
       // defined in the settings
@@ -390,13 +386,13 @@
 
     /**
      * setCookie
-     * This method sets the Form cookie into the document
+     * This method sets the cioForm cookie into the document
      * @param  { string } name      [ the name of the cookie ]
      * @param  { boolean } value    [ the value of the cookie ]
      * @param  { number } expire    [ number of days to set for expiry date ]
      * @return  { string } [ the cookie string ]
      */
-    Form.prototype.setCookie = function( name, value, expire ) {
+    cioForm.prototype.setCookie = function( name, value, expire ) {
       // Defining a cookie variable (string)
       var cookie = "";
 
@@ -434,7 +430,7 @@
      * @param { string / number }   id [ The ID of the user ]
      * @return { string / number }  [ The ID of the user]
      */
-    Form.prototype.setId = function( id ) {
+    cioForm.prototype.setId = function( id ) {
       // Defining the variable for new ID
       var newId;
       // Getting the emails address from attributes
@@ -459,7 +455,7 @@
      * attribute object that is to be sent to Customer.io
      * @return { number } [ The UNIX timestamp ]
      */
-    Form.prototype.setTimestamp = function() {
+    cioForm.prototype.setTimestamp = function() {
       if( settings.created_at === false ) {
         return false;
       }
@@ -479,7 +475,7 @@
      * @param  { value } key  [ the name of the key to be removed]
      * @return { object }     [ the attributes object ]
      */
-    Form.prototype.unset = function( key ) {
+    cioForm.prototype.unset = function( key ) {
       // Return false if the key argument is undefined
       if( key === undefined ) {
         return false;
@@ -499,7 +495,7 @@
      * to Customer.io
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.before = function() {
+    cioForm.prototype.before = function() {
       // Execute the callback function
       _callback( settings.before, this );
       // Returning the model
@@ -512,9 +508,22 @@
      *
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.completed = function() {
+    cioForm.prototype.completed = function() {
       // Execute the callback function
       _callback( settings.completed, this );
+      // Returning the model
+      return this;
+    };
+
+    /**
+     * uncompleted
+     * This method executes a callback if the form has not been completed
+     *
+     * @return { object } [ the cioForm object ]
+     */
+    cioForm.prototype.uncompleted = function() {
+      // Execute the callback function
+      _callback( settings.uncompleted, this );
       // Returning the model
       return this;
     };
@@ -525,7 +534,7 @@
      * to Customer.io
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.error = function() {
+    cioForm.prototype.error = function() {
       // Execute the callback function
       _callback( settings.error, this );
       // Returning the model
@@ -538,7 +547,7 @@
      *
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.onLoad = function() {
+    cioForm.prototype.onLoad = function() {
       // Execute the callback function
       _callback( settings.onLoad, this );
       // Returning the model
@@ -550,7 +559,7 @@
      * This resets all the fields on the form
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.reset = function() {
+    cioForm.prototype.reset = function() {
       // Find and loop through all the inputs
       this.$el.find( "input[type!='hidden']" ).each( function() {
         // Set the values to blank
@@ -567,22 +576,15 @@
      * @param   { object } [ a object with data to send to cio ]
      * @return  { object } [ the cioForm object ]
      */
-    Form.prototype.send = function( attributes ) {
+    cioForm.prototype.send = function( attributes ) {
       var that = this;
-
-      // Return an error if CIO is not defined in global
-      if( !window._cio || !window._cio.identify ) {
-        throw "You don't have have Customer.io setup properly.";
-        return that.error();
-      }
-
       // Use attributes argument if defined. If not, fallback
       // to attributes generated from the form via input name/values
       var data = attributes ? attributes : that.attributes;
       // Return an error if the data is not an object
       if( data === undefined || typeof data !== "object" ) {
-        throw "The data you're sending to Customer.io isn't setup properly.";
-        return that.error();
+        that.error();
+        return false;
       }
 
       // Send the attributes to Customer.io
@@ -600,7 +602,7 @@
      * to Customer.io successfully
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.success = function() {
+    cioForm.prototype.success = function() {
       var that = this;
       // Return false if success state is false
       if( !_settings.success ) {
@@ -623,7 +625,7 @@
      * This method executes to submit the form
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.submit = function() {
+    cioForm.prototype.submit = function() {
       var that = this;
       // Getting the attributes from the form
       that.getAttributes();
@@ -650,20 +652,24 @@
         }
       } );
 
+      if( settings.remote === true ) {
+        return;
+      }
+
       // Returning the model
       return this;
     };
 
-    Form.prototype.forceSubmit = function() {
+    cioForm.prototype.forceSubmit = function() {
       this.el.submit();
     };
 
     /**
      * initialize
-     * This method initializes the Form class
+     * This method initializes the cioForm class
      * @return { object } [ the cioForm object ]
      */
-    Form.prototype.initialize = function() {
+    cioForm.prototype.initialize = function() {
       var that = this;
       // Defining $el
       var $el = that.$el;
@@ -689,8 +695,11 @@
       // and the form has been filled (defined by cookie)
       if( completed && typeof completed === "function" &&
           that.hasFilled() ) {
-          // Execute the completed callback
-          that.completed();
+        // Execute the completed callback
+        that.completed();
+      } else {
+        // Execute the uncompleted callback
+        that.uncompleted();
       }
 
       // Returning the model
@@ -704,16 +713,16 @@
       // Defining $this
       var $this = $(this);
       // Defining cioForm
-      var cioForm;
+      var form;
 
-      // If this jQuery object has already rendered Form, return
+      // If this jQuery object has already rendered cioForm, return
       if( $this.data( _settings.dataName ) ) return;
 
-      // Creating the Form class and assigning it to the cioForm variable
-      cioForm = new Form( this );
+      // Creating the cioForm class and assigning it to the cioForm variable
+      form = new cioForm( this );
 
-      // Adding the Form class to the data of the object
-      $this.data( _settings.dataName, cioForm );
+      // Adding the cioForm class to the data of the object
+      $this.data( _settings.dataName, form );
     });
 
   };
