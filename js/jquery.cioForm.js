@@ -251,7 +251,7 @@
       var $el = this.$el;
 
       // Loop through all the inputs
-      $el.find( "input" ).each( function() {
+      $el.find( "input, select" ).each( function() {
         // Defining the name and the value from the input field
         var name = this.name;
         var value = this.value;
@@ -561,7 +561,7 @@
      */
     cioForm.prototype.reset = function() {
       // Find and loop through all the inputs
-      this.$el.find( "input[type!='hidden']" ).each( function() {
+      this.$el.find( "input[type!='hidden'], select" ).each( function() {
         // Set the values to blank
         this.value = "";
       });
