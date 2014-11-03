@@ -652,10 +652,6 @@
         }
       } );
 
-      if( settings.remote === true ) {
-        return;
-      }
-
       // Returning the model
       return this;
     };
