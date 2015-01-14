@@ -255,6 +255,12 @@
         // Defining the name and the value from the input field
         var name = this.name;
         var value = this.value;
+        var type = this.type;
+
+        // Skip the input if the type is "Submit"
+        if( type && type === "submit" ) {
+          return false;
+        }
 
         // Adjust the value if the input is a checkbox
         if( this.type === "checkbox" ) {
