@@ -276,7 +276,7 @@
       });
 
       // Setting the ID
-      that.setId();
+      that.setId( that.attributes.id );
 
       // Setting the "created_at" timestamp
       that.setTimestamp();
