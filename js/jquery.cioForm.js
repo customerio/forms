@@ -259,7 +259,7 @@
 
         // Skip the input if the type is "Submit"
         if( type && type === "submit" ) {
-          return false;
+          return;
         }
 
         // Adjust the value if the input is a checkbox
