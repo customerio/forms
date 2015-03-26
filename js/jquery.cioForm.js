@@ -251,7 +251,7 @@
       var $el = this.$el;
 
       // Loop through all the inputs
-      $el.find( "input, select" ).each( function() {
+      $el.find( "input, select, textarea" ).each( function() {
         // Defining the name and the value from the input field
         var name = this.name;
         var value = this.value;
@@ -264,6 +264,11 @@
 
         // Adjust the value if the input is a checkbox
         if( this.type === "checkbox" ) {
+          value = this.checked.toString();
+        }
+
+        // Adjust the value if the input is a radio
+        if( this.type === "radio" ) {
           value = this.checked.toString();
         }
 
