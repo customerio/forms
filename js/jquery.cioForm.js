@@ -66,6 +66,7 @@
      */
     var _settings = {
         dataName: 'cioForm',
+        segment: false,
         success: false
     };
 
@@ -119,6 +120,18 @@
     };
 
     /**
+     * _checkSegmentIntegration
+     * This determines whether or not identify is done through Segment
+     */
+    var _checkSegmentIntegration = function() {
+      if(analytics && analytics.Integrations && analytics.Integrations['Customer.io']) {
+        settings.segment = true;
+      }
+
+      return settings.segment;
+    };
+
+    /**
      * _ready
      * This is a private method that verifies that _cio is loaded into the DOM
      *
@@ -126,13 +139,18 @@
      * @return { function }      [ The callback method]
      */
     var _ready = function( fn ) {
+
+      if(settings.segment) {
+        return fn();
+      }
+
       // if _cio is not available in window
       if( !window._cio ) {
         // Check again via recurssive _ready every 10ms, passing fn as parameter
         return setTimeout( _ready, 10, fn );
       }
 
-      if( !window._cio.images || !window._cio.images[0] ) {
+      if( !window._cio.identify ) {
         // Check again via recurssive _ready every 10ms, passing fn as parameter
         return setTimeout( _ready, 10, fn );
       }
@@ -156,15 +174,13 @@
      */
     var _identified = function( fn ) {
 
+      _checkSegmentIntegration();
+      if(settings.segment) {
+        return fn();
+      }
+
       // Execute when _cio is ready
       _ready( function() {
-
-        var _images = window._cio.images;
-        // If the last image in _cio.images is NOT "complete"
-        if( _images[ _images.length - 1 ].complete !== true ) {
-          // Check identified again
-          return setTimeout( _identified, 10, fn );
-        }
 
         // Return the callback if defined
         if( fn && typeof fn === "function" ) {
@@ -599,7 +615,11 @@
       }
 
       // Send the attributes to Customer.io
-      _cio.identify( data );
+      if(settings.segment) {
+        analytics.identify( data.id, data );
+      } else {
+        _cio.identify( data );
+      }
 
       // Update the success state in _settings to true
       _settings.success = true;
@@ -680,6 +700,8 @@
       var that = this;
       // Defining $el
       var $el = that.$el;
+
+      _checkSegmentIntegration();
 
       // Execute the onLoad callback
       that.onLoad();
