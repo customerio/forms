@@ -124,7 +124,7 @@
      * This determines whether or not identify is done through Segment
      */
     var _checkSegmentIntegration = function() {
-      if(analytics && analytics.Integrations && analytics.Integrations['Customer.io']) {
+      if(window.analytics && window.analytics.Integrations && window.analytics.Integrations['Customer.io']) {
         settings.segment = true;
       }
 
